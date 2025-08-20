@@ -1,0 +1,43 @@
+{
+    "name": "display_manager",
+    "version": "1.0.0",
+    "description": "Efficient display update manager for VVC ESP32 project with LVGL integration",
+    "keywords": [
+        "display",
+        "lvgl", 
+        "esp32",
+        "manager",
+        "optimization",
+        "event-driven"
+    ],
+    "authors": [
+        {
+            "name": "VVC Project",
+            "maintainer": true
+        }
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/vvc-project",
+    "dependencies": [
+        {
+            "name": "lv_display",
+            "version": "*"
+        },
+        {
+            "name": "temperature", 
+            "version": "*"
+        }
+    ],
+    "frameworks": [
+        "espidf",
+        "arduino"
+    ],
+    "platforms": [
+        "espressif32"
+    ],
+    "build": {
+        "flags": [
+            "-DDISPLAY_MANAGER_VERSION=\\\"1.0.0\\\""
+        ]
+    }
+}

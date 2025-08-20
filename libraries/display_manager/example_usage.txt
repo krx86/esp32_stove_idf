@@ -1,0 +1,105 @@
+/*
+ * Display Manager Integration Example for VVC Project
+ * 
+ * Šis piemērs parāda, kā integrēt Display Manager VVC projektā
+ * 
+ * PIEZĪME: Šis ir PIEMĒRA fails! Nekompilējiet to atsevišķi.
+ * Kopējiet nepieciešamo kodu uz savu main.cpp failu.
+ */
+
+#include "display_manager.h"
+#include "temperature.h"
+#include "lv_display.h"
+
+// Function declarations
+void on_temperature_changed(int new_temperature);
+void on_target_temperature_set(int new_target);
+void on_ntp_time_sync();
+void debug_force_update_all();
+void debug_show_stats();
+
+// Piemērs, kā izmantot display manager main.cpp failā
+
+void setup() {
+    // 1. Inicializējam citas sistēmas
+    // init_temperature_sensor();
+    // lv_display_init_hardware();
+    
+    // 2. Inicializējam display manager
+    display_manager_init();
+    
+    // 3. Konfigurējam optimālus intervalus
+    // Event-driven režīms ar minimāliem fallback intervaliem
+    display_manager_set_update_intervals(
+        0,      // Temperatūra: tikai event-driven (0 = nav fallback)
+        1000,   // Progress bars: katru sekundi
+        30000,  // Laiks: katras 30 sekundes  
+        50      // Touch: katras 50ms (ātrai atbildei)
+    );
+    
+    // 4. Reģistrējam temperature callback
+    register_temperature_change_callback(on_temperature_changed);
+    
+    // 5. Parādām konfigurāciju
+    display_manager_print_config();
+}
+
+void loop() {
+    // Galvenā display manager funkcija
+    display_manager_update();
+    
+    // Citas loop funkcijas...
+    // update_temperature(); // Šī funkcija paziņos par izmaiņām caur callback
+    
+    // Statistika katras 30 sekundes
+    static uint64_t last_stats = 0;
+    uint64_t now = esp_timer_get_time() / 1000;
+    if (now - last_stats > 30000) {
+        last_stats = now;
+        display_manager_print_stats();
+    }
+}
+
+// Temperature callback funkcija
+void on_temperature_changed(int new_temperature) {
+    // Paziņojam display manager par temperatūras izmaiņām
+    display_manager_notify_temperature_changed();
+    
+    ESP_LOGI("MAIN", "Temperature changed to: %d°C", new_temperature);
+}
+
+// Citi event piemēri:
+
+void on_target_temperature_set(int new_target) {
+    extern int target_temp_c;
+    target_temp_c = new_target;
+    
+    // Paziņojam par mērķa temperatūras izmaiņām
+    display_manager_notify_target_temp_changed();
+}
+
+void on_ntp_time_sync() {
+    // Kad NTP laiks tiek sinhronizēts
+    display_manager_notify_time_synced();
+}
+
+// Debug funkcijas
+
+void debug_force_update_all() {
+    display_manager_force_update_all();
+    ESP_LOGI("DEBUG", "Forced all display updates");
+}
+
+void debug_show_stats() {
+    display_stats_t stats = display_manager_get_stats();
+    
+    float efficiency;
+    uint32_t total_updates, skipped_updates, uptime_minutes;
+    display_manager_get_efficiency_stats(&efficiency, &total_updates, &skipped_updates, &uptime_minutes);
+    
+    ESP_LOGI("DEBUG", "=== DISPLAY PERFORMANCE ===");
+    ESP_LOGI("DEBUG", "Uptime: %lu min", uptime_minutes);
+    ESP_LOGI("DEBUG", "Efficiency: %.1f%% (%.0f skipped)", efficiency, (float)skipped_updates);
+    ESP_LOGI("DEBUG", "Updates: temp=%lu, bars=%lu, touch=%lu", 
+             stats.temp_updates, stats.bars_updates, stats.touch_updates);
+}

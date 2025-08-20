@@ -1,0 +1,10 @@
+# fix for build issue
+CONFIG_FREERTOS_HZ=1000
+# Enable certificate bundle for HTTPS
+CONFIG_MBEDTLS_CERTIFICATE_BUNDLE=y
+CONFIG_MBEDTLS_CERTIFICATE_BUNDLE_DEFAULT_FULL=y
+# Ensure HTTP client HTTPS support
+CONFIG_ESP_HTTP_CLIENT_ENABLE_HTTPS=y
+# Do NOT enable insecure skip verify (leave commented)
+# CONFIG_ESP_TLS_INSECURE is not set
+# CONFIG_ESP_TLS_SKIP_SERVER_CERT_VERIFY is not set

@@ -1,0 +1,25 @@
+{
+    "name": "damper_control",
+    "version": "1.0.0",
+    "description": "ESP32 damper control library with PID controller and servo management for VVC project - exact copy from test22",
+    "keywords": "esp32, damper, pid, servo, control, automation",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/aaksts1986/esp32_stove_controller.git"
+    },
+    "authors": [
+        {
+            "name": "ESP32 Stove Controller Team",
+            "maintainer": true
+        }
+    ],
+    "license": "MIT",
+    "frameworks": "espidf",
+    "platforms": "espressif32",
+    "dependencies": {
+    },
+    "build": {
+        "includeDir": ".",
+        "srcDir": "."
+    }
+}

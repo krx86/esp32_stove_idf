@@ -1,0 +1,25 @@
+{
+    "name": "temperature",
+    "version": "1.0.0",
+    "description": "Temperature sensor management library with Dallas DS18B20 support for ESP-IDF",
+    "authors": [
+        {
+            "name": "VVC Project",
+            "maintainer": true
+        }
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/aaksts1986/esp32_stove_controller",
+    "dependencies": {
+        "espressif32": "*",
+        
+        "ds18b20": "*"
+        
+    },
+    "frameworks": ["espidf"],
+    "platforms": ["espressif32"],
+    "build": {
+        "includeDir": ".",
+        "srcDir": "."
+    }
+}

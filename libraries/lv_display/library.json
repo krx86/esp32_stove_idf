@@ -1,0 +1,28 @@
+{
+    "name": "lv_display",
+    "version": "1.0.0",
+    "description": "LVGL display library for VVC project - adapted from test22 with ESP-IDF compatibility",
+    "keywords": "esp32, lvgl, display, ui, graphics",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/aaksts1986/esp32_stove_controller.git"
+    },
+    "authors": [
+        {
+            "name": "ESP32 Stove Controller Team",
+            "maintainer": true
+        }
+    ],
+    "license": "MIT",
+    "frameworks": "espidf",
+    "platforms": "espressif32",
+    "dependencies": {
+        "damper_control": "*",
+        "temperature": "*",
+        "display_manager": "*"
+    },
+    "build": {
+        "includeDir": ".",
+        "srcDir": "."
+    }
+}
